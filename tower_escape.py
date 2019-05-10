@@ -123,7 +123,7 @@ while running:
 
     for enemy in floorgroup.sprites(): 
         
-        if not hero.rect.top>enemy.rect.bottom and hero.rect.bottom>enemy.rect.top and ((hero.rect.right<enemy.rect.right and hero.rect.right>enemy.rect.left) or (hero.rect.left>enemy.rect.right and hero.rect.left<enemy.rect.left)):
+        if not hero.rect.top>enemy.rect.bottom and hero.rect.bottom>enemy.rect.top and ((hero.rect.right<=enemy.rect.right and hero.rect.right>=enemy.rect.left) or (hero.rect.left>=enemy.rect.right and hero.rect.left<=enemy.rect.left)):
             dy=-Terrain.speed*time
             collidedheight=hero.rect.bottom-enemy.rect.top
             break
@@ -142,18 +142,6 @@ while running:
 
     if hero.alive:
         text=write("SCORE:"+str(int(score)),20)
-    
-
-
-
-
-
-
-
-
-
-
-
         screen.blit(background.subsurface(text.get_rect()),(0,0))
         screen.blit(text,(0,0))
         pg.display.update(text.get_rect())
