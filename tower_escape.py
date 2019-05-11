@@ -42,6 +42,7 @@ class Terrain(pg.sprite.Sprite):
 class Hero(pg.sprite.Sprite):
     speed=100
     width,height=10,10
+    dx=0
     def __init__(self,pos=[]):
         pg.sprite.Sprite.__init__(self,self.groups)
         
@@ -91,7 +92,7 @@ score=0
 first=True
 hero=Hero((WIDTH/2,HEIGHT-10*Hero.height))
 dy=0
-collidedheight=0
+
 
 while running:
     time=clock.tick(FPS)/1000.0
@@ -119,24 +120,23 @@ while running:
         first=False
       
 
-     
+    allgroups.update(time)
 
     for enemy in floorgroup.sprites(): 
-        
-        if not hero.rect.top>enemy.rect.bottom and hero.rect.bottom>enemy.rect.top and ((hero.rect.right<=enemy.rect.right and hero.rect.right>=enemy.rect.left) or (hero.rect.left>=enemy.rect.right and hero.rect.left<=enemy.rect.left)):
-            dy=-Terrain.speed*time
-            collidedheight=hero.rect.bottom-enemy.rect.top
+        if hero.rect.colliderect(enemy.rect):
+            hero.rect.bottom=enemy.rect.top
+            dy=0
             break
+
     else:
         dy=hero.speed*time
-        collidedheight=0
+
         
 
-    hero.rect.centery+=dy-max(collidedheight,0)
+    hero.rect.centery+=dy
         
 
     allgroups.clear(screen,background)  
-    allgroups.update(time)
     allgroups.draw(screen)
 
 
